@@ -30,7 +30,7 @@ document.body.appendChild(cardDiv)
 const buttons = document.querySelectorAll("button")
 buttons.forEach((answer) => {
     answer.addEventListener("click", () => {
-        return answer.id == "answer_correct" ?
+        answer.id == "answer_correct" ?
             (
                 answer.style.color = 'green',
                 document.querySelector("#score").innerHTML++,
