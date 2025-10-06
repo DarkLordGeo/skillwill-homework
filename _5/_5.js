@@ -27,6 +27,7 @@ document.body.appendChild(cardDiv)
 //     </div>
 // `
 // document.querySelector("#i").innerHTML = html
+
 const buttons = document.querySelectorAll("button")
 buttons.forEach((answer) => {
     answer.addEventListener("click", () => {
