@@ -3,10 +3,14 @@ import TaskList from './TaskList'
 import CompletedTasks from './CompletedTasks'
 
 class Logic extends Component {
-    state = {
-        inputValue: "",
-        tasks: [],
-        completed: []
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            inputValue: "",
+            tasks: [],
+            completed: []
+        }
     }
 
     inputValueUpdate = (e) => {
@@ -18,8 +22,9 @@ class Logic extends Component {
 
     addTask = (e) => {
         e.preventDefault()
+        const uuID = crypto.randomUUID()
         const task = {
-            id: this.state.tasks.length + 1,
+            id: uuID,
             task_info: this.state.inputValue
         }
 
@@ -30,9 +35,10 @@ class Logic extends Component {
     }
 
     addCompleted = (id) => {
+        const uuID = crypto.randomUUID()
         const completedTaskId = this.state.tasks.find(task => task.id === id);
         const completedTask = {
-            id: this.state.completed.length + 1,
+            id: uuID,
             completed_task: completedTaskId.task_info
         }
 
@@ -43,6 +49,7 @@ class Logic extends Component {
         this.setState({
             tasks: taskToDelete,
         });
+
     }
 
     deleteCompleted = (id) => {
@@ -53,9 +60,11 @@ class Logic extends Component {
     }
 
     addTodo = (id) => {
+
+        const completedTask = this.state.completed.find(task => task.id === id);
         const task = {
             id: this.state.tasks.length + 1,
-            task_info: this.state.completed[id - 1].completed_task
+            task_info: completedTask.completed_task
         }
         this.setState({
             tasks: [...this.state.tasks, task],
@@ -65,6 +74,8 @@ class Logic extends Component {
         this.setState({
             completed: taskToDelete,
         });
+
+        console.log(this.state.completed)
     }
 
     render() {

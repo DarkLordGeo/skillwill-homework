@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, PureComponent } from 'react'
 
-class TaskList extends Component {
+class TaskList extends PureComponent {
 
     render() {
         const { task, id, completeTask } = this.props
+        console.log("Child 1 rerenders")
+
         return (
             <div>
                 Task: {task}
