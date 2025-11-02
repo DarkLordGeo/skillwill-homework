@@ -60,10 +60,10 @@ class Logic extends Component {
     }
 
     addTodo = (id) => {
-
+        const uuID = crypto.randomUUID()
         const completedTask = this.state.completed.find(task => task.id === id);
         const task = {
-            id: this.state.tasks.length + 1,
+            id: uuID,
             task_info: completedTask.completed_task
         }
         this.setState({
@@ -76,6 +76,13 @@ class Logic extends Component {
         });
 
         console.log(this.state.completed)
+    }
+
+    shouldComponentUpdate(nextState) {
+        if (nextState.tasks !== this.state.tasks) {
+            return true
+        }
+        return false
     }
 
     render() {
