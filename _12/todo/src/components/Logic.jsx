@@ -1,133 +1,112 @@
-import React, { Component } from 'react'
-import TaskList from './TaskList'
-import CompletedTasks from './CompletedTasks'
+import { useCallback, useState } from "react"
+import React from "react"
 
-class Logic extends Component {
-    constructor(props) {
-        super(props)
+const TodoItem = React.memo(({ task, onDelete, onDone, id }) => {
+    return (
+        <li>
+            {task}
+            <button onClick={() => onDelete(id)}>delete</button>
+            <button onClick={() => onDone(task)}>done</button>
+        </li>
+    )
+})
 
-        this.state = {
-            inputValue: "",
-            tasks: [],
-            completed: []
-        }
-    }
+const DoneTask = React.memo(({ task, onDelete, onReset, id }) => {
+    return (
+        <li>
+            {task}
+            <button onClick={() => onDelete(id)}>delete</button>
+            <button onClick={() => onReset(id)}>reset</button>
+        </li>
+    )
+})
 
-    inputValueUpdate = (e) => {
-        const value = e.target.value;
-        this.setState({
-            inputValue: value
-        })
-    }
 
-    addTask = (e) => {
-        e.preventDefault()
-        const uuID = crypto.randomUUID()
-        const task = {
-            id: uuID,
-            task_info: this.state.inputValue
-        }
+const FuncTodo = () => {
+    const [tasks, setTasks] = useState([])
+    const [currentTask, setCurrentTask] = useState("")
+    const [doneTasks, setDoneTasks] = useState([])
 
-        this.setState({
-            tasks: [...this.state.tasks, task],
-            inputValue: "",
-        })
-    }
 
-    addCompleted = (id) => {
-        const uuID = crypto.randomUUID()
-        const completedTaskId = this.state.tasks.find(task => task.id === id);
-        const completedTask = {
-            id: uuID,
-            completed_task: completedTaskId.task_info
-        }
+    const handleChange = useCallback((event) => {
+        setCurrentTask(event.target.value)
+    })
 
-        this.setState({
-            completed: [...this.state.completed, completedTask]
-        })
-        const taskToDelete = this.state.tasks.filter((task) => task.id !== id);
-        this.setState({
-            tasks: taskToDelete,
-        });
 
-    }
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+        const task = [...tasks, currentTask]
+        setTasks(task)
+        setCurrentTask("")
+    }, [currentTask, tasks])
 
-    deleteCompleted = (id) => {
-        const taskToDelete = this.state.completed.filter((task) => task.id !== id);
-        this.setState({
-            completed: taskToDelete,
-        });
-    }
 
-    addTodo = (id) => {
-        const uuID = crypto.randomUUID()
-        const completedTask = this.state.completed.find(task => task.id === id);
-        const task = {
-            id: uuID,
-            task_info: completedTask.completed_task
-        }
-        this.setState({
-            tasks: [...this.state.tasks, task],
-        })
+    const handleDelete = useCallback((id) => {
+        const updatedTasks = tasks.filter((_, index) => index !== id)
+        setTasks(updatedTasks)
+    }, [tasks])
 
-        const taskToDelete = this.state.completed.filter((task) => task.id !== id);
-        this.setState({
-            completed: taskToDelete,
-        });
 
-        console.log(this.state.completed)
-    }
+    const handleDone = useCallback((selectedTask) => {
+        setTasks((prevTasks) => prevTasks.filter((t) => t !== selectedTask))
+        setDoneTasks((prevDone) => [...prevDone, selectedTask])
+    }, [])
 
-    shouldComponentUpdate(nextState) {
-        if (nextState.tasks !== this.state.tasks) {
-            return true
-        }
-        return false
-    }
 
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.addTask}>
-                    <input type="text"
-                        onChange={this.inputValueUpdate}
-                        value={this.state.inputValue}
+    const handleDoneDelete = useCallback((id) => {
+        const updatedTasks = doneTasks.filter((_, index) => index !== id)
+        setDoneTasks(updatedTasks)
+    }, [doneTasks])
+
+
+    const handleReset = useCallback((id) => {
+        const resetTask = doneTasks[id]
+        const updatedTasks = [...tasks, resetTask]
+        const updateDoneTasks = doneTasks.filter((_, index) => index !== id)
+        setTasks(updatedTasks)
+        setDoneTasks(updateDoneTasks)
+    }, [doneTasks, tasks])
+    
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    onChange={handleChange}
+                    value={currentTask}
+                />
+            </form>
+            <button onClick={handleSubmit}>add</button>
+            <h1>Todo</h1>
+            <ul>
+                {tasks.map((task, index) => (
+                    <TodoItem
+                        key={index}
+                        id={index}
+                        task={task}
+                        onDelete={handleDelete}
+                        onDone={handleDone}
                     />
-                </form>
-                <button onClick={this.addTask}>Add task</button>
-                <p>Tasks:</p>
-                <br />
-                <ul>
+                ))}
+            </ul>
+            <h1>Completed:</h1>
+            <ul>
+                {doneTasks.map((task, index) => (
+                    <DoneTask
+                        key={index}
+                        id={index}
+                        task={task}
+                        onDelete={handleDoneDelete}
+                        onReset={handleReset}
+                    />
+                ))}
+            </ul>
+        </div>
+    )
 
-                    <h1>To do</h1>
-                    {this.state.tasks.map((task) => (
-                        <li key={task.id}>
-                            <TaskList
-                                task={task.task_info}
-                                id={task.id}
-                                completeTask={this.addCompleted}
-                            />
-                        </li>
-                    ))}
-                    <h1>Completed task</h1>
-                    <br />
-
-                    {this.state.completed.map((task) => (
-                        <li key={task.id}>
-                            <CompletedTasks
-                                task={task.completed_task}
-                                id={task.id}
-                                deleteCompleted={this.deleteCompleted}
-                                addTodo={this.addTodo}
-                            />
-                        </li>
-                    ))}
-
-                </ul>
-
-            </div>
-        )
-    }
 }
 
-export default Logic
+export default FuncTodo
+
+
