@@ -23,6 +23,7 @@ const DoneTask = React.memo(({ task, onDelete, onReset, id }) => {
 
 
 const FuncTodo = () => {
+    
     const [tasks, setTasks] = useState([])
     const [currentTask, setCurrentTask] = useState("")
     const [doneTasks, setDoneTasks] = useState([])
