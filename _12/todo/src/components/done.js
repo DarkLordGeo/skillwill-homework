@@ -44,7 +44,7 @@ function Backlog(){
     },[currentTask,inputValues])
     
     const borderColor = {
-        borderBottom: '2px solid #f5c721'
+        borderBottom: '2px solid #93cd55'
     }                                                                                                                           
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
