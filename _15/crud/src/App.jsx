@@ -8,9 +8,6 @@ function App() {
   const [tasks, setTasks] = useState([])
 
 
-
-
-
   const submitData = (task, completed) => {
 
     const requestOptions = {
