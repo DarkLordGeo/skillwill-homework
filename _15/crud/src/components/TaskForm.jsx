@@ -53,33 +53,91 @@
 
 // export default TaskForm
 
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
+import useRequest from '../hooks/useRequests'
+
 
 const TaskForm = () => {
 
   const { id } = useParams()
+  const [data, setData] = useState([])
+  const navigate = useNavigate()
+
   const [editing, setEditing] = useState(false)
-  const { response, error, loading } = useFetch({ url: `http://localhost:3000/tasks/`, method: "GET" })
+  const { response, error, loading } = useFetch({ url: `http://localhost:3000/tasks/${id}`, method: "GET" })
+  const { load, sendRequest } = useRequest({ url: `http://localhost:3000/tasks/${id}`, method: "PUT" })
+
+
+  const [task, setTask] = useState({
+    name: '',
+    isCompleted: false,
+    assignedTo: '',
+    additionalInfo: ''
+  })
+
+  useEffect(() => {
+    setData(response)
+  }, [response])
+
 
   const toggleEdit = () => {
+    console.log(edit)
     setEditing(!editing)
   }
 
+  const submitData = (e) => {
+    e.preventDefault()
+
+    sendRequest(task)
+      .then(() => navigate('/'))
+      .catch(err => console.log(err))
+  }
+  console.log(task)
+
+  if (loading && !response) return <p>Loading . . . </p>
+  if (error || !response) return <p>Something went wrong</p>
 
   return (
     <div>
-      <p>{id}</p>
-      <button onClick={() => toggleEdit()}>{editing ? 'save' : 'edit'}</button>
+      <div key={data?.id}>
+        <p>{data?.id}</p>
+        <p><b>Task author:</b> {data?.name}</p>
+        <p><b>Task assigned to:</b> {data?.assignedTo}</p>
+        <p><b>Completed: </b>{data?.isCompleted ? 'completed' : 'not completed'}</p>
+        <p><b>Additional info: </b>{data?.additionalInfo} </p>
+      </div>
       <Link to={'/'}>Go back</Link>
       {editing ?
-        <form>
-          <input type="text" />
+        <form onSubmit={(e) => submitData(e)}>
+          <input type="text" placeholder='Author' onChange={(e) => setTask({ ...task, name: e.target.value })} defaultValue={data?.name} />
+          <br />
+          <input type="text"
+            placeholder='Assigned to'
+            onChange={(e) => setTask({ ...task, assignedTo: e.target.value })}
+            defaultValue={data?.assignedTo}
+          />
+          <br />
+          <input type="checkbox"
+            placeholder='Completed'
+            onChange={(e) => setTask({ ...task, isCompleted: e.target.checked })}
+            defaultValue={data?.isCompleted}
+          />
+          <br />
+          <input type="text"
+            placeholder='Additional info'
+            onChange={(e) => setTask({ ...task, additionalInfo: e.target.value })}
+            defaultValue={data?.additionalInfo}
+          />
+          <br />
+          <button type='submit'>Save task and update</button>
         </form>
-        : <p>not editing</p>
+
+        : <></>
       }
+      <button onClick={() => toggleEdit()} type='submit' >{editing ? 'Save' : 'Edit'}</button>
 
     </div>
   )
