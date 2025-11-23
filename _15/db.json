@@ -1,11 +1,80 @@
 {
   "tasks": [
+    "2d92": [
+      {}
+    ],
     {
-      "0": {
-        "task": "asdasd",
-        "completed": true
-      },
-      "id": "2f06"
+      "id": "2c92",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "4b3c",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "e33f",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "3112",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "06cb",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "9ab7",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "dd8d",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "991e",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": ""
+    },
+    {
+      "id": "b315",
+      "name": "",
+      "isCompleted": false,
+      "deadline": "",
+      "assignedTo": "",
+      "additionalInfo": "",
+      "": ""
     }
   ]
 }
