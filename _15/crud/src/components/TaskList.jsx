@@ -19,13 +19,17 @@ const TaskList = () => {
     if (error || !response) return <p>Something went wrong</p>
 
     // console.log(tasks)
-    
+
     return (
         <div>
             <h1>Tasks</h1>
             {tasks?.map((item) => (
                 <div key={item.id}>
-                    <p>{item.id}</p>
+                    <span style={{display:"flex",justifyContent:"center"}}>
+                        <b>ID:</b>
+                        <p>{item.id}</p>
+                    </span>
+
                     <p><b>Task author</b>: {item.name}</p>
                     <p><b>Task assigned to:</b> {item.assignedTo}</p>
 

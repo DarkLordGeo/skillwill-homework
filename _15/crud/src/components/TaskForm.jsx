@@ -59,7 +59,6 @@ import { Link } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import useRequest from '../hooks/useRequests'
 
-
 const TaskForm = () => {
 
   const { id } = useParams()
@@ -78,24 +77,33 @@ const TaskForm = () => {
     additionalInfo: ''
   })
 
+
+  useEffect(() => {
+    setTask(({
+      name: response?.name,
+      isCompleted: response?.isCompleted,
+      assignedTo: response?.assignedTo,
+      additionalInfo: response?.additionalInfo
+    }))
+  }, [response])
+
   useEffect(() => {
     setData(response)
   }, [response])
 
 
   const toggleEdit = () => {
-    console.log(edit)
+    console.log(editing)
     setEditing(!editing)
   }
 
   const submitData = (e) => {
     e.preventDefault()
-
     sendRequest(task)
       .then(() => navigate('/'))
       .catch(err => console.log(err))
   }
-  console.log(task)
+  console.log('response:', response)
 
   if (loading && !response) return <p>Loading . . . </p>
   if (error || !response) return <p>Something went wrong</p>
@@ -112,24 +120,31 @@ const TaskForm = () => {
       <Link to={'/'}>Go back</Link>
       {editing ?
         <form onSubmit={(e) => submitData(e)}>
-          <input type="text" placeholder='Author' onChange={(e) => setTask({ ...task, name: e.target.value })} defaultValue={data?.name} />
+          <input type="text"
+            placeholder='Author'
+            onChange={(e) => setTask({ ...task, name: e.target.value })} defaultValue={data?.name}
+            value={task.name}
+          />
           <br />
           <input type="text"
             placeholder='Assigned to'
             onChange={(e) => setTask({ ...task, assignedTo: e.target.value })}
-            defaultValue={data?.assignedTo}
+            // defaultValue={data?.assignedTo}
+            value={task.assignedTo}
           />
           <br />
           <input type="checkbox"
             placeholder='Completed'
             onChange={(e) => setTask({ ...task, isCompleted: e.target.checked })}
-            defaultValue={data?.isCompleted}
+            // defaultValue={data?.isCompleted}
+            value={task.isCompleted}
           />
           <br />
           <input type="text"
             placeholder='Additional info'
             onChange={(e) => setTask({ ...task, additionalInfo: e.target.value })}
-            defaultValue={data?.additionalInfo}
+            // defaultValue={data?.additionalInfo}
+            value={task.additionalInfo}
           />
           <br />
           <button type='submit'>Save task and update</button>
@@ -138,7 +153,6 @@ const TaskForm = () => {
         : <></>
       }
       <button onClick={() => toggleEdit()} type='submit' >{editing ? 'Save' : 'Edit'}</button>
-
     </div>
   )
 }
