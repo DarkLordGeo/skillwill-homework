@@ -1,25 +1,3 @@
 {
-  "tasks": [
-    {
-      "name": "this is that",
-      "isCompleted": true,
-      "assignedTo": "to me",
-      "additionalInfo": "this is additional info",
-      "id": "1"
-    },
-    {
-      "name": "hello",
-      "isCompleted": true,
-      "assignedTo": "admin",
-      "additionalInfo": "this task is for lasha",
-      "id": "2"
-    },
-    {
-      "name": "",
-      "isCompleted": true,
-      "assignedTo": "asdasd",
-      "additionalInfo": "asdasdasdas",
-      "id": "3"
-    }
-  ]
+  "tasks": []
 }
