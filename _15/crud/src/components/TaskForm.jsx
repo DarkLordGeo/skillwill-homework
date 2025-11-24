@@ -58,8 +58,30 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import useRequest from '../hooks/useRequests'
+import { useLanguage } from '../context/LanguageContext'
 
 const TaskForm = () => {
+
+  const { language } = useLanguage()
+
+  const translation = {
+    en: {
+      placeholder_author: "author",
+      placeholder_assigned: "Assigned to",
+      completed: "Completed",
+      additional_info: "Additional info",
+      button: "Save task and update"
+
+    },
+    ka: {
+      placeholder_author: "ავტორი",
+      placeholder_assigned: "მინიჭებულია",
+      completed: "შესრულებულია",
+      additional_info: "დამატებითი ინფორმაცია",
+      button: "შეინახე დავალება და განაახლე"
+    }
+  }
+
 
   const { id } = useParams()
   const [data, setData] = useState([])
@@ -111,10 +133,10 @@ const TaskForm = () => {
     <div>
       <div key={data?.id}>
         <p>{data?.id}</p>
-        <p><b>Task author:</b> {data?.name}</p>
-        <p><b>Task assigned to:</b> {data?.assignedTo}</p>
-        <p><b>Completed: </b>{data?.isCompleted ? 'completed' : 'not completed'}</p>
-        <p><b>Additional info: </b>{data?.additionalInfo} </p>
+        <p><b>{translation[language].placeholder_author}</b> {data?.name}</p>
+        <p><b>{translation[language].placeholder_assigned}</b> {data?.assignedTo}</p>
+        <p><b>{translation[language].completed}</b>{data?.isCompleted ? 'completed' : 'not completed'}</p>
+        <p><b>{translation[language].additional_info}</b>{data?.additionalInfo} </p>
       </div>
       <Link to={'/'}>Go back</Link>
       {editing ?

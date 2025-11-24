@@ -1,3 +1,11 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "id": "cffb",
+      "name": "asd",
+      "isCompleted": true,
+      "assignedTo": "asd",
+      "additionalInfo": "asdasd"
+    }
+  ]
 }

@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { LanguageContextElement } from "./context/LanguageContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <App />
+    <LanguageContextElement>
+      <App />
+    </LanguageContextElement>
   </BrowserRouter>
 );
 

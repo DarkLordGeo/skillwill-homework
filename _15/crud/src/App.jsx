@@ -3,14 +3,23 @@ import TaskList from "./components/TaskList";
 import TaskForm from "./components/TaskForm";
 import TaskAdd from "./components/TaskAdd";
 
+import Header from "./components/Header";
+
 function App() {
 
   return (
-    <Routes>
-      <Route path="/" element={<TaskList />} />
-      <Route path="/tasks/:id" element={<TaskForm />} />
-      <Route path="/add" element={<TaskAdd />} />
-    </Routes>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<TaskList />} />
+        <Route path="/tasks/:id" element={<TaskForm />} />
+        <Route path="/add" element={<TaskAdd />} />
+      </Routes>
+    </>
+    // <LanguageContext >
+
+    // </LanguageContext>
+
   );
 }
 

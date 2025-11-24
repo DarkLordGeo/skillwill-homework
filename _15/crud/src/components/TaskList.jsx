@@ -2,8 +2,30 @@ import { useEffect, useState } from 'react'
 import useFetch from '../hooks/useFetch'
 import { Link, useNavigate } from 'react-router-dom'
 import { deleteTask } from '../api'
+import { useLanguage } from '../context/LanguageContext'
 
 const TaskList = () => {
+
+    const { language, toggleLanguage } = useLanguage()
+
+    const translation = {
+        en: {
+            placeholder_author: "author",
+            placeholder_assigned: "Assigned to",
+            completed: "Completed",
+            additional_info: "Additional info",
+            button: "Save task and update"
+
+        },
+        ka: {
+            placeholder_author: "ავტორი",
+            placeholder_assigned: "მინიჭებულია",
+            completed: "შესრულებულია",
+            additional_info: "დამატებითი ინფორმაცია",
+            button: "შეინახე დავალება და განაახლე"
+        }
+    }
+
 
     const [tasks, setTasks] = useState([])
     const { response, error, loading } = useFetch({ url: `http://localhost:3000/tasks/`, method: "GET" })
@@ -33,11 +55,11 @@ const TaskList = () => {
                         <p>{item.id}</p>
                     </span>
 
-                    <p><b>Task author</b>: {item.name}</p>
-                    <p><b>Task assigned to:</b> {item.assignedTo}</p>
+                    <p><b>{translation[language].placeholder_author}</b>: {item.name}</p>
+                    <p><b>{translation[language].placeholder_assigned}</b> {item.assignedTo}</p>
 
-                    <p><b>Completed</b>{item.isCompleted ? 'completed' : 'not completed'}</p>
-                    <p><b>Additional info </b>{item.additionalInfo} </p>
+                    <p><b>{translation[language].completed}</b>{item.isCompleted ? 'completed' : 'not completed'}</p>
+                    <p><b>{translation[language].additional_info} </b>{item.additionalInfo} </p>
                     <Link to={`/tasks/${item.id}`}>
                         Task details
                     </Link>
