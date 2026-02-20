@@ -35,7 +35,7 @@ const TaskList = () => {
         setTasks(response)
     }, [response, loading])
 
-    const deleteTaskButton = (id) => {
+    const deleteTaskButton = (id) => 
         deleteTask(id)
         setTasks((tasks.filter((task) => task.id !== id)))
             ?.then((res) => console.log(res))
